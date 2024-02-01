@@ -1,0 +1,454 @@
+
+Date : 09th April 2023
+
+---------------------------------------------------------------------------------------------------------
+
+What is Git/Github & Why do we need it ?
+
+What is Git ?
+    Git is Distributed Version Control System(vcs).
+
+story of Git
+    Git was developed by Linus Torvald (yes, the guy who created Linux).
+
+Git Features
+    -> Snapshots and not differences
+    -> Almost every operation is local
+    -> Git has Integrity it uses SHA - 1
+    -> Git generally adds data.
+
+
+---------------------------------------------------------------------------------------------------------
+
+few commands
+
+git config user.name 
+    --> configures users names
+git config user.email
+    --> configures users email
+git config --global core.editor vim 
+    --> select default 
+
+---------------------------------------------------------------------------------------------------------
+
+
+Git : Three Stage architecture
+
+Local Operation 
+
+
+Working Directory ------------------------ staging Area ------------------------ Git Directory(repository)
+    |                                           |                                       |
+    |                checkout the project       |                                       |
+    |<------------------------------------------|-------------------------------------- |
+    |                                           |                                       |
+    |                stage file                 |                                       |
+    |-----------------------------------------> |                                       |
+    |                                           |                                       |
+    |                                           |           commit                      | 
+    |                                           |-------------------------------------->|
+
+
+Working Directory : It's the place which we see in file explorer , i.e is directory which we are working 
+ex : C:\users\law\ 
+
+staging Area : It's basically from where we commit into Git Directory.
+
+    -> Note : We can commit directly from working directory to Git Directory but it's consider a bad practice 
+
+    In here we keep all the files which we want to push into Git Directory in next commit
+
+Git Directory : It's basically a hidden directory i.e ".git"
+
+
+---------------------------------------------------------------------------------------------------------
+
+Date : 18th April 2023
+
+Tracking our First Git project
+
+    -> git init 
+        -> To initialise the git this creates a ".git" folder in working directory 
+    
+    -> git status
+        -> Basically to see the various statuses of your files/folders in the directory whether they are 
+        in staged area, unmodified, modified or committed 
+
+
+    -> git log
+        -> Basically to see the various commits that occurred on our directory
+
+
+    -> git add [fiilename/foldername]
+        -> this basically adds the file onto staging area 
+
+        -> git add --add    
+            -> this basically adds all the files and folders present in present directory into staging area
+
+    -> git commit -m "message that you want to save/attach with this particular commit"
+        -> this command commits or saves all the snapshots which is present in staged are into .git folder
+        note : git doesn't save the differences rather saves the snapshots
+
+    ---------------------------------------------------------------------------------------------------------
+
+    Cloning a git repository from github
+
+    -> git is a distributed version control system but github is GitHub, Inc. is an Internet hosting
+     service for software development and version control using Git
+
+
+    -> rm -rf .git 
+        -> it's a really dangerous command it will delete .git folder and your repository is no longer 
+        a git repository it have become and ordinary one.
+        -> rm -rf deletes the content in an folder, it's a Linux command .
+
+    -> git clone [websiteurl] [name you wanna give]
+
+        -> git clone is a command that helps you to clone a git repository from github now for finding 
+        website url go to github website and to the repository you wanna clone at right hand side
+        you'll find code in green color and click on it you'll find an url(https) copy that url and paste it here
+
+        -> ex : git  clone   https://github.com/tensorflow/tensorflow.git     LawTensorflow
+
+        -> note : when you clone a git repository from github it's already a git repository so no need to run the 
+        git init command.
+    
+    
+    -> Once you've done some changes you'll get the message like your brach is ahead of 1 commit from original 
+    branch/master . The reason being that your are owner of the tensorflow on your local PC but not the one 
+    hosted at github and the original one is the one hosted at github
+
+    ---------------------------------------------------------------------------------------------------------
+
+    File status life cycle 
+
+
+
+    untracked                           unmodified                      modified                            staged
+
+        |                                   |          edit the file        |                                   |
+        |                                   | --------------------------->  |                                   |
+        |                                   |                               |                                   |
+        |        add the file               |                               |                                   |
+        | --------------------------------> |                               |                                   |
+        |                                   |                               |             stage file            |
+        |                                   |                               | ------------------------------->  |
+        |                                   |                               |                                   |
+        |           remove the file         |                               |                                   |
+        | <-------------------------------- |                               |                                   |
+        |                                   |                            commit                                 |
+        |                                   | <---------------------------------------------------------------- |
+        |                                   |                               |                                   |
+
+
+
+    --------------------------------------------------------------------------------------------------------- 
+
+    Date : 22nd April 2023
+
+    .gitignore : Ignoring the Files in Git 
+
+    touch : it's a command used to create a file
+
+        -> syntax : touch <filename.extension>
+        -> ex : touch error.log
+
+        ->while creating software we tend to keep records of errors in some files like error.log this error.log is just
+            used to record errors but has nothing to do with development so keeping track of this file is just waste of
+            some memory. So, we tend to ignore such files therefore we create a file name .gitignore and write every
+            every file name inside the .gitignore file so that git will know which file to ignore(i.e not to keep track of).
+
+        -> let's suppose your program is creating many error.log files like error1.log , error2.log , error3.log etc, so to avoid
+            writing these names we can simply write "*.log" inside the .gitignore file. so, it ignores the entire files that end 
+            with ".log"
+
+        -> we can not only write file name but also directory name
+
+        -> Let's look at a structure in the directory i.e working directory which is a git directory we have two folders which are
+            dir and static the static folder in turn has another dir so we have dir and static/dir . So, if we want only the outer 
+            dir to be ignored and the dir inside the static folder (i.e static/dir) to be traced we write "/dir/" inside .gitignore file
+            else if you wanna ignore all the folder with name dir you just write "dir/" inside .gitignore file
+            note : "dir/" will ignore all folders with name dir but "/dir/" will ignore only the outer dir(i.e in the git directory) but not 
+            dir present inside some other directory(this some directory is outer directory like dir i.e is the direct child of working directory
+            or git repository).
+
+        -> note there can be written many patterns inside .gitignore but for now that's it 
+
+
+         --------------------------------------------------------------------------------------------------------- 
+
+         Date 30th july 2023
+
+         Git diff : showing changes between Commits/staging area and working directory
+
+         -> let's say we made some changes to a file "law.txt" and put that in staging area. Now, if we run "git stauts"
+            we see "law.txt" in staging area(highlighted by green) . Now, let's say we made few more changes and saved the 
+            file and run "git status" we can find to version of "law.txt" one which is in staging area and the other one
+            in working directory not if we run "git add"  this modified version of "law.txt" will go into staging area
+            Now,instead if we run "git diff" it will show me the differences between staging area and working directory
+
+        -> "git diff --staged" compares staging area and previous commit
+         
+         --------------------------------------------------------------------------------------------------------- 
+
+        Date 30th july 2023
+
+        Git : Skipping the staging area 
+
+        -> "git commit -a -m "some message"  will directly commit and skip the staging area "-a" need to be used with 
+            git commit to skip staging area note the above command doesn't commit untracked files.
+
+        ---------------------------------------------------------------------------------------------------------
+
+        Date 30th july 2023
+
+        Moving and Renaming files in Git
+
+        -> In git repository if we rename a file and run "git status" command it'll show a message like one file deleted
+            and a new file added. Unless you stage it and then run "git status"  to get a message like the file is renamed
+        -> Use "git rm [file name]" to remove the file. This command not only deletes the file but also moves the changes to 
+            staging area.  
+        -> Use "git mv [file name] [new file name]" the rename the file .This command not only renames the file but also moves 
+            the changes to staging area.
+
+        -> Let's suppose we added a new file name (law .txt) in .gitignore file and then run git status it'll show that .gitignore is modified
+            let's suppose we committed the changes and made changes in the file (law .txt) and ran "git status" then it will show a message
+            like law.txt is modified , technically git shouldn't show this message since we added it in git ignore but the reason why it'save
+            showing this message is because the file(law.txt) is still being tracked by git to tell git not to track this file (law.txt) we
+            use the command "git rm --cached" and now if we run "git status" it'll show law.txt deleted but don't worry it didn't deleted it 
+            just we stopped untracking it. Now if you make any changes in law.txt and run "git status" it won't track law.txt. 
+
+        ---------------------------------------------------------------------------------------------------------
+
+        Date 30th july 2023
+
+        Git log: viewing and changing and commits in git
+        -> "git log" is used to see previous commits 
+        -> "git log -p" is used to see previous commit along with the differences ( ex : deleted "hello world" added "hello you").
+        -> "git log -p -3" will show you previous 3 commits along with the differences.
+        -> "git log --stat" will give you small summary about every commits.
+        -> "git log --pretty=oneline" will show you one line summary about previous commits.
+        -> "git log --pretty=short" will show very less details about previous commits.
+        -> "git log --pretty=full" will show a bit more info abour previous commits.
+            note difference between author and commit is author is the one who created the file but commit is the person who made   
+                changes and committed.
+        -> "git log --since=2.days" it will show you previous commits from 2days back.
+            similarly we can write 2.weeks,2.months,2.years etc.
+
+        -> "git log --pretty=format:"%h --%an"
+            here "%h" is abrivate of hash of commit and "an" is author name and "ae" is author email
+            note see git documents for adding more filters.
+        -> "git commit --amend" is a convenient way to modify the most recent commit
+            note : In vim editor 'i' for insert and esc + ":wq" to save changes 
+
+        --------------------------------------------------------------------------------------------------------
+
+        Date 31st july 2023
+
+       Unstaging and unmodifying Files in Git
+
+        -> "git restore --staged <file>" .. to unstage
+        -> "git checkout -- <file_name>" this will match the file to previous commit.
+        -> "git checkout -f" will match the working directory with previous commit.
+    
+        --------------------------------------------------------------------------------------------------------
+
+        Date 31st july 2023
+
+        GitHub working with Remote repositories
+
+        -> GitHub is is a (website/ server) which hosts git repositories.
+        -> here we have two thing pull and push 
+            -> pull is where we bring the code from github server to our local machines.
+            -> push is where we give the changes to the github server from our local machines.
+        -> "git remote add origin git@github.com:codeWithLaw/GitTutorialDemo.git" . let's breakdown this command.
+            -> git remote add (it's basically a command to add url) origin(it's alias name of the url) 
+                git@github.com:codeWithLaw/GitTutorialDemo.git is the url (i.e what ever we push will be pushed into this url)
+            -> This url is where the git repository is hosted.
+        -> "git remote" shows list of  remote git repositories(i.e different git repositories hosted remotely)  .Using which in current git 
+            repository which is present on your local system so that you can push or fetch from these listed repositories.
+            note : here we have two git repository one which is hosted on your local system the other which is hosted on the url
+                we just added. 
+        -> "git remote -v" command is used to show from which remote repository we are fetching and from from which remote repository
+            we are pushing too.
+            note : We can fetch from some remote repository but push into someother repository.
+        -> "git push -u origin master" is used to push local git repository to remote git repository.
+            -> note : when you try to push for first time you'll get error like "Permission to codeWithLaw/GitTutorialDemo.git denied".
+            -> To ensure that you have permission you go to account seeting > SSH and GPG keys and click on new SSH key and just add a new one
+            -> If you don't know how to create a ssh key use the below mentioned steps 
+                -> just type ssh keys github in google search bar and click on first link 
+                    ->https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+                -> you can also follow the below steps which is copied from google search.
+                    -> ssh-keygen -t ed25519 -C "your_email@example.com"
+                        -> after doing this you'll be asked where to store this ssh key and you work according to prompts  
+                    -> eval "$(ssh-agent -s)"
+                        ->ensures that your ssh agent is running
+                    ->ssh-add ~/.ssh/id_ed25519
+                        -> Add your SSH private key to the ssh-agent. If you created your key with a different name, or if you are adding an 
+                            existing key that has a different name, replace id_ed25519 in the command with the name of your private key file.
+
+                    -> tail ~/.ssh/id_ed25519 to see the key copy the key and just add it in ("add new ssh key in github website").
+        -> now just make changes on local git repository and push it to remote repository(url).
+
+         --------------------------------------------------------------------------------------------------------
+
+        Date 31st july 2023
+
+        Setting Alias in Git
+
+        -> "git config --global alias.st status"
+            -> Above command basically means that instead of status you can use an alias name st  ex : git st means git status.
+
+        -> "git config --global alias.unstage 'restore --staged --'
+            -> above command basically means that instead of writing restore -- staged we can write unstage.
+        -> "git config -global alias.last 'log -p -1'
+            -> now instead of writing "git log -p -1" we can write "git last" to view the very recent commit.
+
+        --------------------------------------------------------------------------------------------------------
+
+        Date 31st july 2023
+
+        Git : Creating and Switching Branches in Git
+
+        ->        
+                                                       13<------14<------15         ------> (branch 3)
+                                                      /                  ^ 
+                                                     /                   /   
+                                                    /                   /
+                                  4 <------5<-----6<----7 --------------             ---------------> (branch 1)
+                                 /
+                                /
+            1<------2<--------3<---------11<-----12                                     -------------->  (master branch)
+                                 \
+                                  \
+                                   7<------8<-----9<-----10                             ---------------> (branch 2)
+
+        -> note : these numbers represent commit. Different commit like commit-1, commit-2,.....commit-15
+        -> note : we can parallely work on branches .
+        -> the above diagram is an example of branching 
+        -> The concept of branching is very important let's understand with an example
+            ex : Let's say the master branch is in production and now people are working on this and making new commits every 
+            single day, In the mean time you got an idea and want to implement and test your idea. But the problem here is that
+            you can't play with the code (which is in master branch) so you instead create a branch from that particular  branch
+            it need not only be master branch. 
+            Now people will be working on master branch and you'll be working in your branch and changes in one branch won't effect
+            the changes in other branch unless you merge the both Branches (as 15 is merged at 7 in above figure).
+
+        -> "git checkout -b develop" this will create a new branch name develop and you'll be moved into this new branch
+            -> -b is used to create a new branch 
+            -> bhit checkout <branch_name> used to switch between branches.
+
+        -> "git branch" is used to list all the branches in you git repository
+            -> the current branch you are present in will be highlighted with "*"
+
+
+        --------------------------------------------------------------------------------------------------------
+
+        Date 31st july 2023
+
+        Branching and Merging a Production grade project 
+
+        -> Tip : before Switching the branch make sure the you have committed the changes in the current branch you are in.
+             -> recommended
+        -> to merger the current branch with some other branch use the below command
+            -> git merge branch3
+                -> for example in above picture I was in branch2 and ran the above command then branch3 will be merger into branch2
+                    but note we'll get an error as merger conflict has occurred 
+                        -> This error has occurred because the branch3 was created during 6th commit and while merging git checks the 
+                        state of git repository but now it is finds that the branch2 is in 7th commit so now it ask user to make decision
+                        i.e while merging the branch2 and branch3 do the user want's to keep 7th commit or the 15th commit as per user choice 
+                        git will merge the branches
+
+            -> Note : Very important point to note is the merger conflict don't simply occur because of commit number they occur because
+                there might be some changes in the commit which might be different in one commit and different in other commit.
+                -> for example : let's say that there is a div tag in commit number 7 and commit number 15 as follows 
+                
+                    -> case (i) : <div class = "law"> <p> Hi this is law </p> </div>            --------> commit-7th
+                                : <div class = "law"> <p> Hi this is law </p> </div>            ---------> commit-15th
+
+                    -> case (ii) : <div class = "law"> <p> Hi this is law </p> </div>           ----------> commit-7th
+                                : <div class = "law"> <p> Hi this is kush </p> </div>           ----------> commit-15th
+
+
+                    -> In above case (i) will merger without any conflict but in case(ii) git will through an error stating merge conflict
+                        and will ask you to accept the incoming change or not.
+
+
+        -> after running git merge you run "git add ." and "git commit" to merge the branches and commit.
+
+        --------------------------------------------------------------------------------------------------------
+
+        Date 31st july 2023
+
+        Resolving Merge Conflicts 
+
+        ->        
+                                                       13<------14<------15         ------> (branch 3)
+                                                      /                  ^ 
+                                                     /                   /   
+                                                    /                   /
+                                  4 <------5<-----6<----7 --------------             ---------------> (branch 1)
+                                 /
+                                /
+            1<------2<--------3<---------11<-----12                                     -------------->  (master branch)
+                                 \
+                                  \
+                                   7<------8<-----9<-----10                             ---------------> (branch 2)
+
+        -> Branch Management 
+            ->git branch 
+                -> command used to see the list of branches
+            -> git branch -v 
+                -> command used to see the list of branches along with commit hash and commit message of last commit
+            -> git branch --merged
+                -> command used to see the list of all branches merged and it also prints the current branch along with the list.
+            -> git branch --no-merged 
+                -> command used to see the list of all unmerged branches.
+            -> git branch -d <branch_name>
+                -> command used to delete the branch whose name is specified .note : if this branch is not merged it'll through an error
+                    like the branch is not merged.
+            -> git branch -D <branch_name>
+                -> irrespective of the branch (whose name is specified here ) i.e merged status i.e it is merged or unmereged it'll simply delete
+                    it.
+
+        --------------------------------------------------------------------------------------------------------
+
+        Date 31st july 2023
+
+        Git Branching Workflow in Production
+
+        ->                               Long running Branches (These branches is usually used in long run) 
+                                         /
+                                        /
+        ->          Branching workflow
+                                        \
+                                         \
+                                            Topic Branches (This is usually used in short term)
+
+
+        --------------------------------------------------------------------------------------------------------
+
+        Date 31st july 2023
+
+        Pushing Git Branches To Remote repository
+
+        -> git push -u origin master 
+            -> remember here origin is alias name for the url where our remote git repository is hosted master is the 
+                branch name of local git repository
+        -> git push origin bugFix
+            -> here a branch is pushed into origin which is named as bugFix in local git repository.
+
+        -> suggestion : before pushing a branch into remote git repository make sure you are present in the branch you wann push
+                        Make sure to commit all the changes before changing to other branch.
+        -> git push origin bugFix:myBugFix 
+            -> here a bugFix branch in local git repository is pushed into remote git repository as myBugFix i.e in local 
+            git repository it'll be named bugFix but in remote it'll be named as myBugFix.
+
+        -> git   push -d origin myBugFix 
+            -> this command will delete the branch from remote git repository.
+
+
+
+        ->Question : What's the difference "origin master" vs "origin/master"
+        ->Ans : This is not a "convention". The former is two separate arguments in different positions
+            with different meanings to git push, and the latter is a single argument which identifies the remote-tracking branch origin/master. 
